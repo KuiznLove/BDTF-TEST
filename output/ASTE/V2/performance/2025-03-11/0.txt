@@ -1,0 +1,10 @@
+2025-03-11 18:51:17
+../data/ASTE/V2/14lap, lr=3e-05, seed=40, model_name_or_path=D:/class9/bert-local/models--bert-base-uncased/snapshots/86b5e0934494bd15c9632b12f734a8a67f723594 3807
+0.3 tensorcontext 64 none 2
+{"pair_f1": 0.3806818181818182, "pair_p": 0.8220858895705522, "pair_r": 0.2476894639556377}
+
+2025-03-11 21:27:22
+../data/ASTE/V2/14lap, lr=3e-05, seed=40, model_name_or_path=D:/class9/bert-local/models--bert-base-uncased/snapshots/86b5e0934494bd15c9632b12f734a8a67f723594    0
+0.3 tensorcontext 64 none 2
+{"pair_f1": 0.0, "pair_p": 1, "pair_r": 0.0}
+

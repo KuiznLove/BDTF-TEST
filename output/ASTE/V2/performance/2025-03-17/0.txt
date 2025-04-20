@@ -1,0 +1,45 @@
+2025-03-17 15:46:59
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6502
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6501614639397202, "pair_p": 0.6801801801801802, "pair_r": 0.622680412371134}
+
+2025-03-17 16:03:36
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6718
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6718232044198894, "pair_p": 0.7238095238095238, "pair_r": 0.6268041237113402}
+
+2025-03-17 16:14:01
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6416
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6415929203539823, "pair_p": 0.6921241050119332, "pair_r": 0.5979381443298969}
+
+2025-03-17 16:23:49
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6704
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6704161979752531, "pair_p": 0.7376237623762376, "pair_r": 0.6144329896907217}
+
+2025-03-17 16:34:32
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6529
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6529284164859002, "pair_p": 0.6887871853546911, "pair_r": 0.6206185567010309}
+
+2025-03-17 16:44:41
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6712
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6711864406779661, "pair_p": 0.7425, "pair_r": 0.6123711340206186}
+
+2025-03-17 16:58:50
+../data/ASTE/V2/15res, lr=4e-05, seed=51, model_name_or_path=bert-base-uncased 6602
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6601731601731601, "pair_p": 0.6947608200455581, "pair_r": 0.6288659793814433}
+
+2025-03-17 17:08:49
+../data/ASTE/V2/15res, lr=4e-05, seed=52, model_name_or_path=bert-base-uncased 6376
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6375838926174497, "pair_p": 0.6968215158924206, "pair_r": 0.5876288659793815}
+
+2025-03-17 17:18:56
+../data/ASTE/V2/15res, lr=4e-05, seed=53, model_name_or_path=bert-base-uncased 6563
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6562500000000001, "pair_p": 0.7153284671532847, "pair_r": 0.6061855670103092}
+

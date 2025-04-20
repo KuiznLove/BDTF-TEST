@@ -1,0 +1,15 @@
+2024-12-28 21:27:26
+../data/aste_data_bert/V2/14lap, lr=3e-05, seed=40, model_name_or_path=bert-base-uncased 6074
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6073926073926074, "pair_p": 0.6608695652173913, "pair_r": 0.5619223659889094}
+
+2024-12-28 21:45:26
+../data/aste_data_bert/V2/14lap, lr=3e-05, seed=50, model_name_or_path=bert-base-uncased 6157
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.615686274509804, "pair_p": 0.6555323590814196, "pair_r": 0.5804066543438078}
+
+2024-12-28 21:56:57
+../data/aste_data_bert/V2/14lap, lr=3e-05, seed=60, model_name_or_path=bert-base-uncased 6383
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6382556987115957, "pair_p": 0.688034188034188, "pair_r": 0.5951940850277264}
+

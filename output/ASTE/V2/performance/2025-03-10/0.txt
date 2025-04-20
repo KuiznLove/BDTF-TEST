@@ -1,0 +1,20 @@
+2025-03-10 10:18:51
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6598
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6597938144329897, "pair_p": 0.6597938144329897, "pair_r": 0.6597938144329897}
+
+2025-03-10 10:32:33
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6674
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6673866090712742, "pair_p": 0.7006802721088435, "pair_r": 0.6371134020618556}
+
+2025-03-10 10:51:52
+../data/ASTE/V2/14lap, lr=3e-05, seed=40, model_name_or_path=bert-base-uncased 6110
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6110019646365423, "pair_p": 0.6519916142557652, "pair_r": 0.5748613678373382}
+
+2025-03-10 11:11:27
+../data/ASTE/V2/14lap, lr=3e-05, seed=40, model_name_or_path=bert-base-uncased 6168
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6168032786885245, "pair_p": 0.6919540229885057, "pair_r": 0.55637707948244}
+

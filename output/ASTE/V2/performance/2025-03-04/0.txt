@@ -1,0 +1,10 @@
+2025-03-04 23:17:48
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 3852
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.3851851851851852, "pair_p": 0.6842105263157895, "pair_r": 0.26804123711340205}
+
+2025-03-04 23:28:31
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6652
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6652267818574513, "pair_p": 0.6984126984126984, "pair_r": 0.6350515463917525}
+

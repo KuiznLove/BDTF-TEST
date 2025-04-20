@@ -1,0 +1,90 @@
+2025-03-13 09:58:56
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 3358
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.335832083958021, "pair_p": 0.6153846153846154, "pair_r": 0.2309278350515464}
+
+2025-03-13 10:37:05
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6743
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6743455497382198, "pair_p": 0.6851063829787234, "pair_r": 0.6639175257731958}
+
+2025-03-13 10:58:08
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6529
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6528925619834711, "pair_p": 0.6542443064182195, "pair_r": 0.6515463917525773}
+
+2025-03-13 11:17:56
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6743
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6743455497382198, "pair_p": 0.6851063829787234, "pair_r": 0.6639175257731958}
+
+2025-03-13 11:28:07
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6702
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6702127659574467, "pair_p": 0.6923076923076923, "pair_r": 0.6494845360824743}
+
+2025-03-13 15:26:04
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6687
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6687242798353908, "pair_p": 0.6673511293634496, "pair_r": 0.6701030927835051}
+
+2025-03-13 15:38:41
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6710
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6709677419354839, "pair_p": 0.701123595505618, "pair_r": 0.643298969072165}
+
+2025-03-13 15:50:38
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6783
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6783369803063456, "pair_p": 0.7226107226107226, "pair_r": 0.6391752577319587}
+
+2025-03-13 16:07:18
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6607
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6606538895152199, "pair_p": 0.7288557213930348, "pair_r": 0.6041237113402061}
+
+2025-03-13 16:38:18
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6730
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6729957805907173, "pair_p": 0.6889848812095032, "pair_r": 0.6577319587628866}
+
+2025-03-13 19:12:10
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6730
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6729957805907173, "pair_p": 0.6889848812095032, "pair_r": 0.6577319587628866}
+
+2025-03-13 19:24:37
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6783
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6783369803063456, "pair_p": 0.7226107226107226, "pair_r": 0.6391752577319587}
+
+2025-03-13 19:38:36
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6474
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6473859844271412, "pair_p": 0.7028985507246377, "pair_r": 0.6}
+
+2025-03-13 20:02:29
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6426
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6425619834710744, "pair_p": 0.6438923395445134, "pair_r": 0.6412371134020619}
+
+2025-03-13 22:29:41
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6319
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6319218241042346, "pair_p": 0.6674311926605505, "pair_r": 0.6}
+
+2025-03-13 22:40:33
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6426
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6425619834710744, "pair_p": 0.6438923395445134, "pair_r": 0.6412371134020619}
+
+2025-03-13 22:52:40
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6569
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6569178852643419, "pair_p": 0.7227722772277227, "pair_r": 0.6020618556701031}
+
+2025-03-13 23:06:32
+../data/ASTE/V2/15res, lr=4e-05, seed=50, model_name_or_path=bert-base-uncased 6625
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.6624605678233438, "pair_p": 0.6759656652360515, "pair_r": 0.6494845360824743}
+
