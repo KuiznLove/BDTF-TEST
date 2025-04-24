@@ -113,7 +113,7 @@ class TypeEnhancedGCN(nn.Module):
 
 # 新
 class TypeEnhancedGCNDeepseek(nn.Module):
-    def __init__(self, in_dim, out_dim, dep_type_num=45, dep_emb_dim=16):
+    def __init__(self, in_dim, out_dim, dep_type_num=45, dep_emb_dim=768):
         super().__init__()
         self.dep_embedding = nn.Embedding(dep_type_num, dep_emb_dim)
         self.W1 = nn.Linear(in_dim + dep_emb_dim, out_dim)
@@ -274,3 +274,105 @@ def position_aware_transformation(hidden_states, aspect_mask):
     transformed_states = hidden_states * position_weights
 
     return transformed_states
+
+
+class TypeEnhancedGAT(nn.Module):
+    def __init__(self, in_dim, out_dim, dep_type_num=45, dep_emb_dim=768, num_heads=8):
+        super().__init__()
+        self.dep_embedding = nn.Embedding(dep_type_num, dep_emb_dim)
+        self.W1 = nn.Linear(in_dim + dep_emb_dim, out_dim)
+        self.W2 = nn.Linear(in_dim + dep_emb_dim, out_dim)
+
+        # 替换GCN为GAT
+        self.gat = GATLayer(in_dim, out_dim, num_heads=num_heads)
+        self.bias = nn.Parameter(torch.zeros(out_dim))
+        nn.init.xavier_uniform_(self.W1.weight)
+        nn.init.xavier_uniform_(self.W2.weight)
+
+    def forward(self, h, dep_type_matrix, adj=None, aspect_mask=None):
+        batch_size, seq_len, _ = h.size()
+        if adj is None:
+            adj = (dep_type_matrix != 0).int()
+        if aspect_mask is not None:
+            h = position_aware_transformation(h, aspect_mask)
+        dep_emb = self.dep_embedding(dep_type_matrix)
+        h_expanded = h.unsqueeze(2).expand(-1, -1, seq_len, -1)
+        combined = torch.cat([h_expanded, dep_emb], dim=-1)
+        h_prime_i = self.W1(combined)
+        h_prime_j = self.W2(combined)
+        # 计算注意力分数
+        d_k = h_prime_i.size(-1)
+        scores_raw = torch.sum(h_prime_i * h_prime_j, dim=-1) / (d_k ** 0.5)
+
+        # 应用邻接矩阵和LeakyReLU
+        scores = F.leaky_relu(scores_raw, negative_slope=0.2)
+        masked_scores = scores * adj
+        # 行归一化
+        norm_factor = torch.sum(masked_scores, dim=-1, keepdim=True) + 1e-6
+        A = masked_scores / norm_factor
+        # 使用GAT替代GCN
+        output = self.gat(h, A) + self.bias
+        output = F.relu(output)
+        return output
+
+
+class GATLayer(nn.Module):
+    def __init__(self, in_dim, out_dim, num_heads=8):
+        super().__init__()
+        self.num_heads = num_heads
+        self.out_dim = out_dim
+
+        # 多头注意力机制
+        self.attentions = nn.ModuleList([
+            nn.Linear(in_dim, out_dim // num_heads) for _ in range(num_heads)
+        ])
+
+        # 注意力参数
+        self.a = nn.Parameter(torch.zeros(size=(2 * out_dim // num_heads, 1)))
+        nn.init.xavier_uniform_(self.a.data, gain=1.414)
+
+        # 输出层
+        self.out_linear = nn.Linear(out_dim, out_dim)
+
+        # self.eps = 1e-6  # 添加一个小的常数
+
+        self.layer_norm = nn.LayerNorm(out_dim)
+
+    def forward(self, h, adj):
+        batch_size, seq_len, _ = h.size()
+
+        # 多头注意力计算
+        head_outputs = []
+        for attention in self.attentions:
+            # 线性变换
+            h_trans = attention(h)  # [batch_size, seq_len, out_dim//num_heads]
+
+            # 计算注意力分数
+            h_i = h_trans.unsqueeze(2).expand(-1, -1, seq_len, -1)
+            h_j = h_trans.unsqueeze(1).expand(-1, seq_len, -1, -1)
+            a_input = torch.cat([h_i, h_j], dim=-1)
+            e = torch.matmul(a_input, self.a).squeeze(-1)
+
+            # 应用注意力掩码和softmax
+            e = e.masked_fill(adj == 0, float('-inf'))
+
+            e = torch.clamp(e, min=-100, max=100)  # 限制数值范围
+            # --------------------------------------------------------------
+            # 添加数值稳定性处理
+            # e = e.masked_fill(adj == 0, float('-inf'))
+            # e = e - torch.max(e, dim=-1, keepdim=True)[0]  # 减去最大值
+            # --------------------------------------------------------------
+            attention = F.softmax(e, dim=-1)
+
+            # 计算输出
+            head_output = torch.bmm(attention, h_trans)
+            head_outputs.append(head_output)
+
+        # 合并多头输出
+        output = torch.cat(head_outputs, dim=-1)
+        output = self.out_linear(output)
+
+        output = self.layer_norm(output)  # 添加层归一化
+
+        assert not torch.isnan(output).any(), "output包含NaN"
+        return output

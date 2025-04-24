@@ -4,7 +4,7 @@ from transformers import BertModel, BertPreTrainedModel
 from .table import TableEncoder
 from .matching_layer import MatchingLayer
 from torch.nn import functional as F
-from .TypeEnhancedGCN import TypeEnhancedGCN, TypeEnhancedGCNDeepseek
+from .TypeEnhancedGCN import TypeEnhancedGCN, TypeEnhancedGCNDeepseek, TypeEnhancedGAT
 from .attention import SelfAttention, AspectAwareAttention, AspectAwareAttention2
 from .fusion import InteractiveAttention, InteractiveAttentionLayer
 from .bilstm import DualEncoderWithBiLSTM
@@ -40,7 +40,8 @@ class BDTFModel(BertPreTrainedModel):
         # ----------------------------------------------------
         # 新增依赖类型增强的图卷积网络
         # self.TypeEnhancedGCN = TypeEnhancedGCN(config.hidden_size, dep_type_dim=64, out_dim=192, num_layers=1)
-        self.TypeEnhancedGCN = TypeEnhancedGCNDeepseek(config.hidden_size, 768)
+        # self.TypeEnhancedGCN = TypeEnhancedGCNDeepseek(config.hidden_size, 768)
+        self.TypeEnhancedGCN = TypeEnhancedGAT(config.hidden_size, 768)
         # self.TypeEnhancedGCN = EnhancedTypeGCN(config.hidden_size, 768)
         # ----------------------------------------------------
         # self.fusion = InteractiveAttention(hidden_dim=768, num_heads=12, dropout=0.3) #14lap, 16res
