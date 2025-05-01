@@ -6,7 +6,7 @@ from .matching_layer import MatchingLayer
 from torch.nn import functional as F
 from .TypeEnhancedGCN import TypeEnhancedGCN, TypeEnhancedGCNDeepseek, TypeEnhancedGAT
 from .attention import SelfAttention, AspectAwareAttention, AspectAwareAttention2
-from .fusion import InteractiveAttention, InteractiveAttentionLayer
+from .fusion import InteractiveAttention, InteractiveAttentionLayer, ImprovedInteractiveAttentionLayer
 from .bilstm import DualEncoderWithBiLSTM
 
 
@@ -45,7 +45,8 @@ class BDTFModel(BertPreTrainedModel):
         # self.TypeEnhancedGCN = EnhancedTypeGCN(config.hidden_size, 768)
         # ----------------------------------------------------
         # self.fusion = InteractiveAttention(hidden_dim=768, num_heads=12, dropout=0.3) #14lap, 16res
-        self.fusion = InteractiveAttentionLayer()
+        # self.fusion = InteractiveAttentionLayer()
+        self.fusion = ImprovedInteractiveAttentionLayer()
 
     def forward(self, input_ids, attention_mask, ids, 
                 # start_label_masks, end_label_masks,

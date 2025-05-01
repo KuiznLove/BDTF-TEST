@@ -129,3 +129,76 @@ class InteractiveAttentionLayer(nn.Module):
 
         h_out = h_b_prime + h_p_prime
         return h_out
+
+# 改进的交互注意力层
+class ImprovedInteractiveAttentionLayer(nn.Module):
+    def __init__(self, hidden_dim=768, num_heads=8, dropout_rate=0.1):
+        super().__init__()
+        self.hidden_dim = hidden_dim
+
+        # 多头注意力
+        self.mha_b = nn.MultiheadAttention(hidden_dim, num_heads, dropout=dropout_rate)
+        self.mha_p = nn.MultiheadAttention(hidden_dim, num_heads, dropout=dropout_rate)
+
+        # 层归一化
+        self.norm_b1 = nn.LayerNorm(hidden_dim)
+        self.norm_p1 = nn.LayerNorm(hidden_dim)
+        self.norm_b2 = nn.LayerNorm(hidden_dim)
+        self.norm_p2 = nn.LayerNorm(hidden_dim)
+
+        # 门控机制
+        self.gate_b = nn.Linear(hidden_dim * 2, hidden_dim)
+        self.gate_p = nn.Linear(hidden_dim * 2, hidden_dim)
+
+        # 特征融合
+        self.fusion = nn.Linear(hidden_dim * 2, hidden_dim)
+        self.dropout = nn.Dropout(dropout_rate)
+
+    def forward(self, h_b, h_p):
+        """
+        改进的交互注意力层
+        参数:
+            h_b: 语义特征 [batch_size, seq_len, hidden_dim]
+            h_p: 语法特征 [batch_size, seq_len, hidden_dim]
+        返回:
+            h_out: 融合后的特征
+        """
+        batch_size, seq_len, _ = h_b.shape
+
+        # 自注意力处理
+        h_b_t = h_b.transpose(0, 1)  # [seq_len, batch_size, hidden_dim]
+        h_p_t = h_p.transpose(0, 1)
+
+        # 语义自注意力
+        attn_b, _ = self.mha_b(h_b_t, h_b_t, h_b_t)
+        attn_b = attn_b.transpose(0, 1)  # [batch_size, seq_len, hidden_dim]
+        h_b = self.norm_b1(h_b + self.dropout(attn_b))
+
+        # 语法自注意力
+        attn_p, _ = self.mha_p(h_p_t, h_p_t, h_p_t)
+        attn_p = attn_p.transpose(0, 1)
+        h_p = self.norm_p1(h_p + self.dropout(attn_p))
+
+        # 交叉注意力增强
+        h_b_t = h_b.transpose(0, 1)
+        h_p_t = h_p.transpose(0, 1)
+
+        # 用语法注意力增强语义
+        cross_b, _ = self.mha_b(h_b_t, h_p_t, h_p_t)
+        cross_b = cross_b.transpose(0, 1)
+
+        # 用语义注意力增强语法
+        cross_p, _ = self.mha_p(h_p_t, h_b_t, h_b_t)
+        cross_p = cross_p.transpose(0, 1)
+
+        # 门控融合
+        gate_b = torch.sigmoid(self.gate_b(torch.cat([h_b, cross_b], dim=-1)))
+        h_b_prime = self.norm_b2(h_b + self.dropout(gate_b * cross_b))
+
+        gate_p = torch.sigmoid(self.gate_p(torch.cat([h_p, cross_p], dim=-1)))
+        h_p_prime = self.norm_p2(h_p + self.dropout(gate_p * cross_p))
+
+        # 最终特征融合
+        h_out = self.fusion(torch.cat([h_b_prime, h_p_prime], dim=-1))
+
+        return h_out
