@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 
 class SelfAttention(nn.Module):
-    def __init__(self, d_model, output_dim, num_heads=1):
+    def __init__(self, d_model, output_dim, num_heads=8):
         """
         自注意力机制模块
         Args:
@@ -64,7 +64,7 @@ class SelfAttention(nn.Module):
         return self.Wo(out)
 
 class AspectAwareAttention(nn.Module):
-    def __init__(self, d_model, output_dim, num_heads=1):
+    def __init__(self, d_model, output_dim, num_heads=8):
         """
         方面感知注意力层
         论文：基于方面感知注意力增强的方面情感三元组抽取 - 高龙涛

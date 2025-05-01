@@ -182,13 +182,7 @@ class DataCollatorForASTE:
             head = example['head']
             postag = example['postag']
             deprel = example['deprel']
-            # ------------------------------------------------------
-            # tokens_contrast_mask = example['tokens'][:-11]
-            # tokens_contrast_mask = example['tokens']
             pairs = example['pairs']
-            # contrast_mask = self.prepare_contrast_mask(seq_length, pairs)
-            # contrast_masks.append(contrast_mask)
-            # ------------------------------------------------------
             # ------------------------------------------------------
             # 提取方面术语掩码
             # aspect_mask = self.prepare_aspect_mask(seq_length, pairs)
@@ -261,6 +255,7 @@ class DataCollatorForASTE:
                     if word_pair_pos[i][j] == 1:
                         if i in nn_jj_bert_index or j in nn_jj_bert_index:
                             word_pair_pos[i][j] = word_pair_pos[i][j] + 1
+                            # word_pair_pos[i][j] = word_pair_pos[i][j] + 0
                             word_pair_pos[j][i] = word_pair_pos[i][j]
             # --------------------------------------------------------------------
             # """4. generate synpost index of the word pair"""
@@ -321,9 +316,6 @@ class DataCollatorForASTE:
         # word_pair_synpost = torch.stack(word_pair_synposts)
         # ------------------------------------------------------
         # ------------------------------------------------------
-        # contrast_mask = torch.stack(contrast_masks)  # 新增：堆叠对比学习mask
-        # ------------------------------------------------------
-        # ------------------------------------------------------
         aspect_mask = torch.stack(aspect_masks)  # 新增：堆叠方面掩码
         opinion_mask = torch.stack(opinion_masks)  # 新增：堆叠观点掩码
         # ------------------------------------------------------
@@ -336,91 +328,12 @@ class DataCollatorForASTE:
         # batch_encodings['word_pair_synpost'] = word_pair_synpost
         # ------------------------------------------------------
         # ------------------------------------------------------
-        # batch_encodings['contrast_mask'] = contrast_mask  # 新增：对比学习mask
-        # ------------------------------------------------------
-        # ------------------------------------------------------
         batch_encodings['aspect_mask'] = aspect_mask  # 新增：方面掩码
         batch_encodings['opinion_mask'] = opinion_mask  # 新增：观点掩码
         # ------------------------------------------------------
         # 添加sentence，需要修改ptgcn_model.py的forward参数
         batch_encodings['sentence'] = [example['sentence'] for example in examples]
         return batch_encodings
-
-    def prepare_contrast_mask(self, seq_len, pairs):
-        """准备单条数据的对比学习mask
-        论文：Rethinking ASTE: A Minimalist Tagging Scheme Alongside Contrastive Learning
-
-        Args:
-            tokens: List[str], token列表
-            pairs: List[List], 每个pair为[aspect_start, aspect_end, opinion_start, opinion_end, polarity]
-        Returns:
-            contrast_mask: [seq_len, seq_len]
-        """
-        # seq_len = len(tokens)+2
-        # contrast_mask = torch.zeros((seq_len, seq_len))
-
-        #---------------------------------------------------
-        # 初始化掩码为 PUSH (-1)
-        contrast_mask = torch.ones(seq_len, seq_len) * -1
-
-        # 设置对角线和下三角为 MSK (0)
-        mask = torch.tril(torch.ones(seq_len, seq_len))
-        contrast_mask = contrast_mask * (1 - mask)
-
-        # 提取方面和不同情感极性的观点索引
-        aspect_indices = []
-        opinion_indices_pos = []
-        opinion_indices_neg = []
-        opinion_indices_neu = []
-
-        for pair in pairs:
-            aspect_start, aspect_end, opinion_start, opinion_end, polarity = pair
-
-            # 收集方面 token 索引
-            for i in range(aspect_start, aspect_end + 1):
-                aspect_indices.append(i)
-
-            # 收集观点 token 索引并按情感极性分类
-            for i in range(opinion_start, opinion_end + 1):
-                if polarity == "POS":
-                    opinion_indices_pos.append(i)
-                elif polarity == "NEG":
-                    opinion_indices_neg.append(i)
-                elif polarity == "NEU":
-                    opinion_indices_neu.append(i)
-
-        # 去除重复索引
-        aspect_indices = list(set(aspect_indices))
-        opinion_indices_pos = list(set(opinion_indices_pos))
-        opinion_indices_neg = list(set(opinion_indices_neg))
-        opinion_indices_neu = list(set(opinion_indices_neu))
-
-        # 设置方面-方面对为 PULL (1)
-        for i in aspect_indices:
-            for j in aspect_indices:
-                if i < j:  # 仅上三角
-                    contrast_mask[i, j] = 1
-
-        # 设置相同情感极性的观点-观点对为 PULL (1)
-        # 正面情感观点对
-        for i in opinion_indices_pos:
-            for j in opinion_indices_pos:
-                if i < j:  # 仅上三角
-                    contrast_mask[i, j] = 1
-
-        # 负面情感观点对
-        for i in opinion_indices_neg:
-            for j in opinion_indices_neg:
-                if i < j:  # 仅上三角
-                    contrast_mask[i, j] = 1
-
-        # 中性情感观点对
-        for i in opinion_indices_neu:
-            for j in opinion_indices_neu:
-                if i < j:  # 仅上三角
-                    contrast_mask[i, j] = 1
-
-        return contrast_mask
 
     def prepare_aspect_mask(self, seq_len, pairs):
         """
